@@ -49,7 +49,7 @@ export default function Footer() {
             <span>by Abhijeet Raj</span>
           </p>
           <p className="text-gray-500 text-sm mt-2">
-            © 2024 Abhijeet Raj. All rights reserved.
+            © 2025 Abhijeet Raj. All rights reserved.
           </p>
         </div>
       </div>
