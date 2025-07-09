@@ -53,7 +53,7 @@ export default function Header() {
               Contact
             </button>
             <a
-              href="/resume/Abhijeet_Devops.pdf" // Replace with the correct path to your PDF
+              href="Abhijeet_Devops.pdf" // Replace with the correct path to your PDF
               download="Abhijeet_Raj_Devops.pdf" // Optional: rename the downloaded file
               className="inline-block"
             >
