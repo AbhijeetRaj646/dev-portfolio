@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
+import Testimonials from './components/Testimonials';
 import Experience from './components/Experience';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
@@ -20,6 +21,9 @@ function App() {
         </section>
         <section id="projects">
           <Projects />
+        </section>
+        <section id="testimonials">
+          <Testimonials />
         </section>
         <section id="experience">
           <Experience />
