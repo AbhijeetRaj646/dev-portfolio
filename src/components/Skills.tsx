@@ -166,7 +166,7 @@ export default function Skills() {
           <div className={`bg-gradient-to-r ${skillCategories[activeCategory].color} rounded-3xl p-8 mb-8`}>
             <div className="flex items-center space-x-4 mb-6 text-white">
               <div className="bg-white/20 p-3 rounded-xl backdrop-blur-sm">
-                <skillCategories[activeCategory].icon className="w-8 h-8" />
+                {React.createElement(skillCategories[activeCategory].icon, { className: "w-8 h-8" })}
               </div>
               <div>
                 <h3 className="text-2xl font-bold">{skillCategories[activeCategory].title}</h3>
