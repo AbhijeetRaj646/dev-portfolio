@@ -1,34 +1,14 @@
-import React from 'react';
-import Header from './components/Header';
-import Hero from './components/Hero';
-import Skills from './components/Skills';
-import Projects from './components/Projects';
-import Experience from './components/Experience';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import React, { useState } from 'react';
+import Sidebar from './components/Sidebar';
+import MainContent from './components/MainContent';
 
 function App() {
+  const [activeSection, setActiveSection] = useState('home');
+
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <main>
-        <section id="about">
-          <Hero />
-        </section>
-        <section id="skills">
-          <Skills />
-        </section>
-        <section id="projects">
-          <Projects />
-        </section>
-        <section id="experience">
-          <Experience />
-        </section>
-        <section id="contact">
-          <Contact />
-        </section>
-      </main>
-      <Footer />
+    <div className="min-h-screen bg-gray-50 flex">
+      <Sidebar activeSection={activeSection} setActiveSection={setActiveSection} />
+      <MainContent activeSection={activeSection} />
     </div>
   );
 }
