@@ -91,18 +91,14 @@ export default function Hero() {
               <span className="text-purple-400 font-semibold"> CI/CD automation</span> to drive operational excellence and system reliability.
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 py-6">
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-400">99.9%</div>
-                <div className="text-sm text-gray-400">System Uptime</div>
+                <div className="text-3xl font-bold text-blue-400">2+</div>
+                <div className="text-sm text-gray-400">Years Experience</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-cyan-400">50%</div>
-                <div className="text-sm text-gray-400">Faster Deployments</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-purple-400">10+</div>
-                <div className="text-sm text-gray-400">Projects Delivered</div>
+                <div className="text-3xl font-bold text-cyan-400">AWS</div>
+                <div className="text-sm text-gray-400">Cloud Expert</div>
               </div>
             </div>
             
@@ -180,32 +176,32 @@ export default function Hero() {
                 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-colors">
-                    <div className="text-3xl font-bold text-blue-400">99.9%</div>
-                    <div className="text-sm text-gray-300">Uptime SLA</div>
+                    <div className="text-3xl font-bold text-blue-400">AWS</div>
+                    <div className="text-sm text-gray-300">Cloud Platform</div>
                     <div className="w-full bg-gray-700 rounded-full h-1 mt-2">
-                      <div className="bg-blue-400 h-1 rounded-full w-[99%]"></div>
+                      <div className="bg-blue-400 h-1 rounded-full w-[90%]"></div>
                     </div>
                   </div>
                   
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-colors">
-                    <div className="text-3xl font-bold text-cyan-400">15+</div>
-                    <div className="text-sm text-gray-300">Active Projects</div>
+                    <div className="text-3xl font-bold text-cyan-400">K8s</div>
+                    <div className="text-sm text-gray-300">Orchestration</div>
                     <div className="w-full bg-gray-700 rounded-full h-1 mt-2">
                       <div className="bg-cyan-400 h-1 rounded-full w-[85%]"></div>
                     </div>
                   </div>
                   
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-colors">
-                    <div className="text-3xl font-bold text-purple-400">24/7</div>
-                    <div className="text-sm text-gray-300">Monitoring</div>
+                    <div className="text-3xl font-bold text-purple-400">CI/CD</div>
+                    <div className="text-sm text-gray-300">Automation</div>
                     <div className="w-full bg-gray-700 rounded-full h-1 mt-2">
-                      <div className="bg-purple-400 h-1 rounded-full w-[100%]"></div>
+                      <div className="bg-purple-400 h-1 rounded-full w-[80%]"></div>
                     </div>
                   </div>
                   
                   <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 hover:bg-white/20 transition-colors">
-                    <div className="text-3xl font-bold text-green-400">50%</div>
-                    <div className="text-sm text-gray-300">Faster Deploys</div>
+                    <div className="text-3xl font-bold text-green-400">IaC</div>
+                    <div className="text-sm text-gray-300">Terraform</div>
                     <div className="w-full bg-gray-700 rounded-full h-1 mt-2">
                       <div className="bg-green-400 h-1 rounded-full w-[75%]"></div>
                     </div>

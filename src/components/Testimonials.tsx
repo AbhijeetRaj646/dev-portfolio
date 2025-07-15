@@ -120,31 +120,7 @@ export default function Testimonials() {
           ))}
         </div>
 
-        {/* Call to Action */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 lg:p-12 text-white text-center">
-          <h3 className="text-3xl font-bold mb-4">Ready to Work Together?</h3>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Join the growing list of satisfied clients and colleagues. Let's discuss how I can help 
-            optimize your infrastructure and accelerate your development processes.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
-            >
-              Start a Conversation
-            </button>
-            <a 
-              href="https://www.linkedin.com/in/abhijeetraj646" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center space-x-2"
-            >
-              <Linkedin className="w-5 h-5" />
-              <span>Connect on LinkedIn</span>
-            </a>
-          </div>
-        </div>
+
       </div>
     </section>
   );

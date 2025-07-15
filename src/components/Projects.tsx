@@ -268,27 +268,7 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* Call to Action */}
-        <div className="mt-16 text-center">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 lg:p-12 text-white">
-            <h3 className="text-3xl font-bold mb-4">Interested in Similar Solutions?</h3>
-            <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-              These projects represent just a fraction of what's possible. Let's discuss how we can 
-              implement similar solutions for your infrastructure needs.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
-              >
-                Discuss Your Project
-              </button>
-              <button className="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105">
-                View All Projects
-              </button>
-            </div>
-          </div>
-        </div>
+
       </div>
     </section>
   );
