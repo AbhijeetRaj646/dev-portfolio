@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { AnimatedSection } from './ui/AnimatedSection';
 import {
+  CalendarIcon,
+  MapPinIcon,
   BriefcaseIcon,
   AcademicCapIcon,
-  CalendarDaysIcon,
-  MapPinIcon,
-  BuildingOfficeIcon,
   TrophyIcon,
 } from '@heroicons/react/24/outline';
 
@@ -15,400 +13,376 @@ interface Experience {
   id: string;
   type: 'work' | 'education' | 'certification';
   title: string;
-  company: string;
+  organization: string;
   location: string;
   period: string;
-  current?: boolean;
   description: string;
-  achievements: string[];
-  technologies: string[];
-  logo?: string;
-  companyUrl?: string;
+  achievements?: string[];
+  technologies?: string[];
+  grade?: string;
+  field?: string;
 }
 
 const Experience: React.FC = () => {
-  const [ref, inView] = useInView({ threshold: 0.2 });
+  const [ref, inView] = useInView({ 
+    threshold: 0.1, 
+    triggerOnce: true,
+    rootMargin: '50px' 
+  });
 
-  const experiences: Experience[] = [
+  // Real data from your resume
+  const experiences: Experience[] = useMemo(() => [
+    // Work Experience
     {
-      id: 'current-role',
+      id: 'realthingks',
       type: 'work',
-      title: 'Senior DevOps Engineer',
-      company: 'TechCorp Solutions',
-      location: 'Bangalore, India',
-      period: 'Jan 2023 - Present',
-      current: true,
-      description: 'Leading DevOps initiatives for cloud migration and infrastructure automation. Responsible for designing and implementing CI/CD pipelines, managing Kubernetes clusters, and ensuring high availability of production systems.',
+      title: 'Software Engineer (DevOps Engineer)',
+      organization: 'Realthingks',
+      location: 'Remote/Hybrid',
+      period: 'July 2023 - Present',
+      description: 'DevOps Engineer focused on cloud infrastructure automation, Kubernetes management, and CI/CD pipeline optimization in an Agile environment.',
       achievements: [
-        'Reduced deployment time by 75% through automated CI/CD pipelines',
-        'Led cloud migration of 50+ applications to AWS EKS',
-        'Implemented GitOps workflows resulting in 99.9% deployment success rate',
-        'Established monitoring and alerting systems reducing MTTR by 60%',
-        'Mentored junior team members on DevOps best practices'
+        'Implemented Role-Based Access Control (RBAC) in Kubernetes to enhance security and manage user access effectively',
+        'Developed Kubernetes CronJobs for automated Jenkins and PostgreSQL database backups, eliminating manual intervention',
+        'Integrated AWS S3 for secure backup storage, improving disaster recovery processes',
+        'Deployed cloud-based Catalog suite using Docker and Kubernetes for scalable operations',
+        'Implemented comprehensive monitoring with Prometheus and Grafana, including custom dashboards and alerts',
+        'Set up centralized log monitoring with Grafana Loki and Promtail, reducing debugging time by 50%',
+        'Developed Python web application integrated with Jira for issue tracking, deployed using Docker',
+        'Implemented Traefik as reverse proxy for optimized routing and application performance',
+        'Successfully delivered 10+ sprints in Agile environment with active participation in daily stand-ups and code reviews'
       ],
-      technologies: ['AWS', 'Kubernetes', 'Terraform', 'Jenkins', 'ArgoCD', 'Prometheus', 'Grafana', 'Docker'],
-      companyUrl: 'https://techcorp.com'
+      technologies: ['Kubernetes', 'Docker', 'AWS', 'Jenkins', 'Prometheus', 'Grafana', 'Python', 'Terraform', 'Jira']
     },
+    // Education
     {
-      id: 'previous-role',
-      type: 'work',
-      title: 'DevOps Engineer',
-      company: 'CloudTech Innovations',
-      location: 'Pune, India',
-      period: 'Jun 2021 - Dec 2022',
-      description: 'Managed cloud infrastructure and automated deployment processes for e-commerce applications. Worked closely with development teams to implement DevOps practices and improve system reliability.',
-      achievements: [
-        'Automated infrastructure provisioning using Terraform',
-        'Implemented security scanning in CI/CD pipelines',
-        'Designed and deployed monitoring solutions for 100+ services',
-        'Reduced infrastructure costs by 40% through resource optimization',
-        'Achieved zero-downtime deployments for critical applications'
-      ],
-      technologies: ['AWS', 'Docker', 'Jenkins', 'Terraform', 'Ansible', 'ELK Stack', 'Python', 'Bash'],
-      companyUrl: 'https://cloudtech.com'
-    },
-    {
-      id: 'first-role',
-      type: 'work',
-      title: 'Junior DevOps Engineer',
-      company: 'StartupTech',
-      location: 'Remote',
-      period: 'Aug 2020 - May 2021',
-      description: 'Started career in DevOps, focusing on learning cloud technologies and automation tools. Assisted in setting up development environments and basic CI/CD processes.',
-      achievements: [
-        'Set up automated testing and deployment for 10+ microservices',
-        'Learned and implemented Docker containerization',
-        'Assisted in AWS infrastructure setup and management',
-        'Created documentation for deployment processes',
-        'Participated in on-call rotation for production support'
-      ],
-      technologies: ['AWS', 'Docker', 'Git', 'Linux', 'Python', 'MySQL', 'Nginx'],
-      companyUrl: 'https://startuptech.com'
-    },
-    {
-      id: 'education',
+      id: 'engineering',
       type: 'education',
-      title: 'Bachelor of Engineering in Computer Science',
-      company: 'VTU University',
-      location: 'Karnataka, India',
-      period: '2016 - 2020',
-      description: 'Completed Bachelor\'s degree in Computer Science with focus on software engineering, algorithms, and system design. Participated in various technical projects and competitions.',
+      title: 'Bachelor of Engineering',
+      field: 'Electronics & Telecommunication Engineering',
+      organization: 'GES RH Sapat College of Engineering, Nashik',
+      location: 'Nashik, India',
+      period: '2019 - 2023',
+      grade: 'CGPA: 9.4',
+      description: 'Specialized in Electronics & Telecommunication Engineering with focus on modern communication systems, embedded systems, and network technologies.',
       achievements: [
-        'Graduated with First Class with Distinction',
-        'Led final year project on Cloud Computing',
-        'Participated in inter-college technical competitions',
-        'Member of Computer Science Society',
-        'Completed internship in web development'
-      ],
-      technologies: ['Java', 'Python', 'C++', 'JavaScript', 'MySQL', 'Linux', 'Git']
+        'Graduated with distinction (CGPA: 9.4)',
+        'Strong foundation in programming, networking, and system design',
+        'Participated in technical workshops and coding competitions',
+        'Developed projects in embedded systems and network automation'
+      ]
     },
     {
-      id: 'aws-cert',
-      type: 'certification',
-      title: 'AWS Certified Solutions Architect',
-      company: 'Amazon Web Services',
-      location: 'Online',
-      period: 'Mar 2022',
-      description: 'Achieved AWS Solutions Architect Associate certification, demonstrating expertise in designing and deploying scalable systems on AWS.',
+      id: 'hsc',
+      type: 'education',
+      title: 'Higher Secondary Certificate',
+      field: 'CBSE',
+      organization: 'S.T. Joseph High School',
+      location: 'Patna, India',
+      period: '2017 - 2019',
+      grade: '88%',
+      description: 'Completed higher secondary education with focus on Science and Mathematics.',
       achievements: [
-        'Demonstrated proficiency in AWS core services',
-        'Validated skills in designing resilient architectures',
-        'Proven knowledge of cost optimization strategies',
-        'Certified in security best practices on AWS'
-      ],
-      technologies: ['AWS', 'Cloud Architecture', 'Security', 'Cost Optimization']
+        'Achieved 88% in CBSE board examinations',
+        'Strong foundation in Mathematics, Physics, and Chemistry',
+        'Active participation in science exhibitions and competitions'
+      ]
     },
     {
-      id: 'k8s-cert',
-      type: 'certification',
-      title: 'Certified Kubernetes Administrator (CKA)',
-      company: 'Cloud Native Computing Foundation',
-      location: 'Online',
-      period: 'Aug 2022',
-      description: 'Earned CKA certification, validating skills in Kubernetes cluster administration, troubleshooting, and management.',
+      id: 'ssc',
+      type: 'education',
+      title: 'Secondary School Certificate',
+      field: 'ICSE',
+      organization: 'S.T. Xavier\'s High School',
+      location: 'Patna, India',
+      period: '2015 - 2017',
+      grade: '94%',
+      description: 'Completed secondary education with excellent academic performance.',
       achievements: [
-        'Proven expertise in Kubernetes cluster management',
-        'Demonstrated skills in troubleshooting and debugging',
-        'Validated knowledge of networking and security',
-        'Certified in backup and restore procedures'
-      ],
-      technologies: ['Kubernetes', 'Container Orchestration', 'Networking', 'Security']
+        'Achieved 94% in ICSE board examinations',
+        'Consistent academic excellence throughout school years',
+        'Developed strong analytical and problem-solving skills'
+      ]
+    },
+    // Certifications
+    {
+      id: 'git-github',
+      type: 'certification',
+      title: 'Git and Github',
+      organization: 'Online Certification',
+      location: 'Online',
+      period: '2023',
+      description: 'Comprehensive certification covering Git version control system and GitHub collaboration workflows.',
+      achievements: [
+        'Mastered Git commands and workflows',
+        'Understanding of branching strategies and merge conflicts',
+        'GitHub Actions and CI/CD integration',
+        'Collaborative development practices'
+      ]
+    },
+    {
+      id: 'java-certification',
+      type: 'certification',
+      title: 'Java Course for Complete Beginners',
+      organization: 'Online Certification',
+      location: 'Online',
+      period: '2023',
+      description: 'Foundational Java programming certification covering object-oriented programming concepts.',
+      achievements: [
+        'Object-oriented programming principles',
+        'Java syntax and core libraries',
+        'Exception handling and debugging',
+        'Application development fundamentals'
+      ]
     }
-  ];
+  ], []);
 
-  const TimelineItem: React.FC<{ experience: Experience; index: number; isLast: boolean }> = ({ 
-    experience, 
-    index, 
-    isLast 
-  }) => {
-    const [itemRef, itemInView] = useInView({ threshold: 0.3, triggerOnce: true });
+  const getIcon = (type: string) => {
+    switch (type) {
+      case 'work':
+        return <BriefcaseIcon className="w-6 h-6" />;
+      case 'education':
+        return <AcademicCapIcon className="w-6 h-6" />;
+      case 'certification':
+        return <TrophyIcon className="w-6 h-6" />;
+      default:
+        return <BriefcaseIcon className="w-6 h-6" />;
+    }
+  };
 
-    const getIcon = () => {
-      switch (experience.type) {
-        case 'work':
-          return <BriefcaseIcon className="w-6 h-6" />;
-        case 'education':
-          return <AcademicCapIcon className="w-6 h-6" />;
-        case 'certification':
-          return <TrophyIcon className="w-6 h-6" />;
-        default:
-          return <BriefcaseIcon className="w-6 h-6" />;
-      }
-    };
+  const getTypeColor = (type: string) => {
+    switch (type) {
+      case 'work':
+        return 'bg-blue-500';
+      case 'education':
+        return 'bg-green-500';
+      case 'certification':
+        return 'bg-purple-500';
+      default:
+        return 'bg-gray-500';
+    }
+  };
 
-    const getIconColor = () => {
-      switch (experience.type) {
-        case 'work':
-          return experience.current ? 'bg-green-500' : 'bg-blue-500';
-        case 'education':
-          return 'bg-purple-500';
-        case 'certification':
-          return 'bg-orange-500';
-        default:
-          return 'bg-gray-500';
-      }
-    };
+  const TimelineItem: React.FC<{ experience: Experience; index: number; isLast: boolean }> = React.memo(({ experience, index, isLast }) => {
+    const [itemRef, itemInView] = useInView({ 
+      threshold: 0.3, 
+      triggerOnce: true,
+      rootMargin: '20px'
+    });
+
+    const isEven = index % 2 === 0;
 
     return (
       <motion.div
         ref={itemRef}
-        initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+        initial={{ opacity: 0, x: isEven ? -50 : 50 }}
         animate={itemInView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.6, delay: index * 0.2 }}
-        className="relative flex items-center mb-12"
+        transition={{ duration: 0.6, delay: Math.min(index * 0.1, 0.8) }}
+        className="relative flex items-center"
       >
-        {/* Timeline Line */}
-        {!isLast && (
+        {/* Timeline line and dot */}
+        <div className="absolute left-1/2 transform -translate-x-1/2 flex flex-col items-center">
           <motion.div
-            className="absolute left-1/2 top-20 w-0.5 h-24 -translate-x-1/2 z-0"
-            style={{ backgroundColor: 'rgb(var(--border))' }}
-            initial={{ height: 0 }}
-            animate={itemInView ? { height: '6rem' } : {}}
-            transition={{ duration: 0.8, delay: index * 0.2 + 0.3 }}
+            initial={{ scale: 0 }}
+            animate={itemInView ? { scale: 1 } : {}}
+            transition={{ duration: 0.4, delay: Math.min(index * 0.1, 0.8) + 0.2 }}
+            className={`w-4 h-4 rounded-full ${getTypeColor(experience.type)} border-4 border-white dark:border-gray-900 shadow-lg z-10`}
           />
-        )}
+          {!isLast && (
+            <motion.div
+              initial={{ height: 0 }}
+              animate={itemInView ? { height: '100%' } : {}}
+              transition={{ duration: 0.6, delay: Math.min(index * 0.1, 0.8) + 0.4 }}
+              className="w-0.5 bg-gray-300 dark:bg-gray-600 mt-2"
+              style={{ minHeight: '120px' }}
+            />
+          )}
+        </div>
 
         {/* Content */}
-        <div className={`w-full flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
-          {/* Card */}
-          <div className="w-5/12">
+        <div className={`w-full ${isEven ? 'pr-8 text-right' : 'pl-8 text-left'}`}>
+          <div className={`max-w-md ${isEven ? 'ml-auto' : 'mr-auto'}`}>
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              className="p-6 rounded-2xl border glass-morphism card-hover"
+              initial={{ opacity: 0, y: 20 }}
+              animate={itemInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: Math.min(index * 0.1, 0.8) + 0.3 }}
+              className="p-6 rounded-xl border transition-all duration-300 card-hover bg-white dark:bg-gray-800"
               style={{ borderColor: 'rgb(var(--border))' }}
             >
               {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold mb-1" style={{ color: 'rgb(var(--foreground))' }}>
+              <div className={`flex items-start ${isEven ? 'flex-row-reverse' : 'flex-row'} gap-4 mb-4`}>
+                <div className={`p-3 rounded-lg ${getTypeColor(experience.type)} text-white`}>
+                  {getIcon(experience.type)}
+                </div>
+                <div className={`flex-1 ${isEven ? 'text-right' : 'text-left'}`}>
+                  <h3 className="text-lg font-bold mb-1" style={{ color: 'rgb(var(--foreground))' }}>
                     {experience.title}
                   </h3>
-                  <div className="flex items-center space-x-2 mb-2">
-                    <BuildingOfficeIcon className="w-4 h-4 text-gray-500" />
-                    {experience.companyUrl ? (
-                      <a
-                        href={experience.companyUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="font-semibold hover:underline"
-                        style={{ color: 'rgb(var(--primary))' }}
-                      >
-                        {experience.company}
-                      </a>
-                    ) : (
-                      <span className="font-semibold" style={{ color: 'rgb(var(--primary))' }}>
-                        {experience.company}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400">
-                    <div className="flex items-center space-x-1">
-                      <CalendarDaysIcon className="w-4 h-4" />
-                      <span>{experience.period}</span>
-                      {experience.current && (
-                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 ml-2">
-                          Current
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    <MapPinIcon className="w-4 h-4" />
-                    <span>{experience.location}</span>
-                  </div>
+                  {experience.field && (
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                      {experience.field}
+                    </p>
+                  )}
+                  <p className="text-sm font-medium" style={{ color: 'rgb(var(--primary))' }}>
+                    {experience.organization}
+                  </p>
                 </div>
               </div>
 
+              {/* Meta information */}
+              <div className={`flex flex-wrap gap-4 mb-4 text-sm text-gray-500 dark:text-gray-400 ${isEven ? 'justify-end' : 'justify-start'}`}>
+                <div className="flex items-center">
+                  <CalendarIcon className="w-4 h-4 mr-1" />
+                  {experience.period}
+                </div>
+                <div className="flex items-center">
+                  <MapPinIcon className="w-4 h-4 mr-1" />
+                  {experience.location}
+                </div>
+                {experience.grade && (
+                  <div className="font-medium text-green-600 dark:text-green-400">
+                    {experience.grade}
+                  </div>
+                )}
+              </div>
+
               {/* Description */}
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                 {experience.description}
               </p>
 
               {/* Achievements */}
-              <div className="mb-4">
-                <h4 className="font-semibold mb-2" style={{ color: 'rgb(var(--foreground))' }}>
-                  Key Achievements
-                </h4>
-                <ul className="space-y-1">
-                  {experience.achievements.slice(0, 3).map((achievement, idx) => (
-                    <li key={idx} className="flex items-start text-sm text-gray-600 dark:text-gray-300">
-                      <span className="text-green-500 mr-2 mt-0.5">•</span>
-                      {achievement}
-                    </li>
-                  ))}
-                </ul>
-                {experience.achievements.length > 3 && (
-                  <span className="text-sm text-gray-500 mt-2 block">
-                    +{experience.achievements.length - 3} more achievements
-                  </span>
-                )}
-              </div>
+              {experience.achievements && experience.achievements.length > 0 && (
+                <div className="mb-4">
+                  <h4 className={`text-sm font-semibold mb-2 ${isEven ? 'text-right' : 'text-left'}`} style={{ color: 'rgb(var(--foreground))' }}>
+                    {experience.type === 'work' ? 'Key Achievements:' : 'Highlights:'}
+                  </h4>
+                  <ul className="space-y-1">
+                    {experience.achievements.slice(0, 4).map((achievement, idx) => (
+                      <li key={idx} className={`text-xs text-gray-600 dark:text-gray-300 flex items-start ${isEven ? 'flex-row-reverse text-right' : 'flex-row text-left'}`}>
+                        <span className={`text-green-500 ${isEven ? 'ml-2' : 'mr-2'} mt-0.5`}>✓</span>
+                        <span className="flex-1">{achievement}</span>
+                      </li>
+                    ))}
+                    {experience.achievements.length > 4 && (
+                      <li className={`text-xs ${isEven ? 'text-right' : 'text-left'}`} style={{ color: 'rgb(var(--primary))' }}>
+                        +{experience.achievements.length - 4} more achievements
+                      </li>
+                    )}
+                  </ul>
+                </div>
+              )}
 
               {/* Technologies */}
-              <div>
-                <h4 className="font-semibold mb-2" style={{ color: 'rgb(var(--foreground))' }}>
-                  Technologies
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {experience.technologies.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2 py-1 text-xs rounded-md border"
-                      style={{
-                        borderColor: 'rgb(var(--border))',
-                        color: 'rgb(var(--muted-foreground))',
-                        backgroundColor: 'rgb(var(--muted))'
-                      }}
-                    >
-                      {tech}
-                    </span>
-                  ))}
+              {experience.technologies && experience.technologies.length > 0 && (
+                <div>
+                  <h4 className={`text-sm font-semibold mb-2 ${isEven ? 'text-right' : 'text-left'}`} style={{ color: 'rgb(var(--foreground))' }}>
+                    Technologies:
+                  </h4>
+                  <div className={`flex flex-wrap gap-1 ${isEven ? 'justify-end' : 'justify-start'}`}>
+                    {experience.technologies.slice(0, 6).map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-2 py-1 text-xs rounded-md border"
+                        style={{
+                          borderColor: 'rgb(var(--border))',
+                          color: 'rgb(var(--muted-foreground))',
+                          backgroundColor: 'rgb(var(--muted))'
+                        }}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                    {experience.technologies.length > 6 && (
+                      <span className="text-xs" style={{ color: 'rgb(var(--primary))' }}>
+                        +{experience.technologies.length - 6}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Center Icon */}
-          <div className="w-2/12 flex justify-center">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={itemInView ? { scale: 1 } : {}}
-              transition={{ duration: 0.4, delay: index * 0.2 + 0.1 }}
-              className={`relative z-10 w-12 h-12 rounded-full ${getIconColor()} flex items-center justify-center text-white shadow-lg`}
-            >
-              {getIcon()}
-              {experience.current && (
-                <motion.div
-                  className="absolute inset-0 rounded-full bg-green-500"
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  style={{ opacity: 0.3 }}
-                />
               )}
             </motion.div>
           </div>
-
-          {/* Spacer */}
-          <div className="w-5/12" />
         </div>
       </motion.div>
     );
-  };
+  });
+
+  TimelineItem.displayName = 'TimelineItem';
+
+  if (!inView) {
+    return (
+      <section ref={ref} id="experience" className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: 'rgb(var(--primary))' }} />
+              <p className="text-lg" style={{ color: 'rgb(var(--muted-foreground))' }}>Loading Experience...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <AnimatedSection id="experience" className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
+    <section ref={ref} id="experience" className="py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          ref={ref}
           initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             <span className="gradient-text">Experience & Education</span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            My professional journey in DevOps engineering, from learning fundamentals to leading 
-            complex cloud infrastructure projects and earning industry certifications.
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            A journey of continuous learning and professional growth in DevOps and cloud technologies.
           </p>
         </motion.div>
 
         {/* Timeline */}
-        <div className="relative">
-          {/* Main Timeline Line */}
-          <motion.div
-            className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2"
-            style={{ backgroundColor: 'rgb(var(--border))' }}
-            initial={{ height: 0 }}
-            animate={inView ? { height: '100%' } : {}}
-            transition={{ duration: 2, delay: 0.5 }}
-          />
-
-          {/* Timeline Items */}
-          {experiences.map((experience, index) => (
-            <TimelineItem
-              key={experience.id}
-              experience={experience}
-              index={index}
-              isLast={index === experiences.length - 1}
-            />
-          ))}
+        <div className="relative max-w-6xl mx-auto">
+          <div className="space-y-12">
+            {experiences.map((experience, index) => (
+              <TimelineItem 
+                key={experience.id} 
+                experience={experience} 
+                index={index}
+                isLast={index === experiences.length - 1}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Summary Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1 }}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6"
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
         >
-          <div className="text-center p-6 rounded-2xl glass-morphism">
-            <div className="text-3xl font-bold gradient-text mb-2">3+</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Years Experience</div>
+          <div className="text-center p-4 sm:p-6 rounded-xl border" style={{ borderColor: 'rgb(var(--border))' }}>
+            <div className="text-2xl sm:text-3xl font-bold gradient-text mb-2">1.5+</div>
+            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Years Experience</div>
           </div>
-          <div className="text-center p-6 rounded-2xl glass-morphism">
-            <div className="text-3xl font-bold gradient-text mb-2">3</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Companies</div>
+          <div className="text-center p-4 sm:p-6 rounded-xl border" style={{ borderColor: 'rgb(var(--border))' }}>
+            <div className="text-2xl sm:text-3xl font-bold gradient-text mb-2">10+</div>
+            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Projects Completed</div>
           </div>
-          <div className="text-center p-6 rounded-2xl glass-morphism">
-            <div className="text-3xl font-bold gradient-text mb-2">2</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Certifications</div>
+          <div className="text-center p-4 sm:p-6 rounded-xl border" style={{ borderColor: 'rgb(var(--border))' }}>
+            <div className="text-2xl sm:text-3xl font-bold gradient-text mb-2">9.4</div>
+            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Engineering CGPA</div>
           </div>
-          <div className="text-center p-6 rounded-2xl glass-morphism">
-            <div className="text-3xl font-bold gradient-text mb-2">50+</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Projects Delivered</div>
+          <div className="text-center p-4 sm:p-6 rounded-xl border" style={{ borderColor: 'rgb(var(--border))' }}>
+            <div className="text-2xl sm:text-3xl font-bold gradient-text mb-2">2</div>
+            <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Certifications</div>
           </div>
-        </motion.div>
-
-        {/* Download Resume CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 1.2 }}
-          className="text-center mt-12"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => {
-              const link = document.createElement('a');
-              link.href = '/resume/abhijeet-raj-resume.pdf';
-              link.download = 'Abhijeet-Raj-Resume.pdf';
-              link.click();
-            }}
-            className="px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
-            style={{
-              backgroundColor: 'rgb(var(--primary))',
-              color: 'rgb(var(--primary-foreground))'
-            }}
-          >
-            Download Full Resume
-          </motion.button>
         </motion.div>
       </div>
-    </AnimatedSection>
+    </section>
   );
 };
 

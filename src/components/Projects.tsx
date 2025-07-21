@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { AnimatedSection } from './ui/AnimatedSection';
 import {
   XMarkIcon,
   ArrowTopRightOnSquareIcon,
@@ -17,7 +16,6 @@ interface Project {
   title: string;
   description: string;
   longDescription: string;
-  image: string;
   technologies: string[];
   category: string;
   githubUrl?: string;
@@ -30,229 +28,210 @@ interface Project {
 }
 
 const Projects: React.FC = () => {
-  const [ref, inView] = useInView({ threshold: 0.2 });
+  const [ref, inView] = useInView({ 
+    threshold: 0.1, 
+    triggerOnce: true,
+    rootMargin: '50px' 
+  });
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const categories = [
+  const categories = useMemo(() => [
     { id: 'all', name: 'All Projects', icon: '🚀' },
     { id: 'devops', name: 'DevOps', icon: '⚙️' },
-    { id: 'cloud', name: 'Cloud Infrastructure', icon: '☁️' },
-    { id: 'automation', name: 'Automation', icon: '🤖' },
     { id: 'monitoring', name: 'Monitoring', icon: '📊' },
-  ];
+    { id: 'security', name: 'Security', icon: '🔒' },
+  ], []);
 
-  const projects: Project[] = [
+  // Real projects based on your resume
+  const projects: Project[] = useMemo(() => [
     {
-      id: 'microservices-k8s',
-      title: 'Microservices on Kubernetes',
-      description: 'Complete CI/CD pipeline for microservices deployment on AWS EKS with monitoring and logging.',
-      longDescription: 'Built a comprehensive microservices architecture deployed on AWS EKS cluster with full CI/CD automation. Implemented GitOps workflow using ArgoCD, integrated security scanning with Trivy, and set up comprehensive monitoring with Prometheus and Grafana.',
-      image: '/api/placeholder/400/300',
-      technologies: ['Kubernetes', 'AWS EKS', 'Docker', 'Jenkins', 'ArgoCD', 'Prometheus', 'Grafana', 'Helm'],
-      category: 'devops',
-      githubUrl: 'https://github.com/abhijeetraj646/microservices-k8s',
-      liveUrl: 'https://demo.abhijeetraj.dev',
-      duration: '3 months',
-      teamSize: '1 (Solo Project)',
-      highlights: [
-        'Deployed 15+ microservices with zero-downtime deployments',
-        'Achieved 99.9% uptime with automated scaling',
-        'Reduced deployment time from 2 hours to 15 minutes',
-        'Implemented comprehensive monitoring and alerting'
-      ],
-      challenges: [
-        'Inter-service communication complexity',
-        'Service mesh configuration',
-        'Resource optimization across namespaces',
-        'Secrets management across environments'
-      ],
-      learnings: [
-        'Advanced Kubernetes networking concepts',
-        'GitOps best practices with ArgoCD',
-        'Observability patterns for microservices',
-        'Cost optimization strategies for cloud resources'
-      ]
-    },
-    {
-      id: 'terraform-aws-infrastructure',
-      title: 'Infrastructure as Code with Terraform',
-      description: 'Automated AWS infrastructure provisioning using Terraform with modules and best practices.',
-      longDescription: 'Designed and implemented a complete AWS infrastructure using Terraform modules. Created reusable modules for VPC, EKS, RDS, and monitoring stack. Implemented proper state management with remote backends and workspace management.',
-      image: '/api/placeholder/400/300',
-      technologies: ['Terraform', 'AWS', 'Terragrunt', 'GitHub Actions', 'Checkov', 'tfsec'],
-      category: 'cloud',
-      githubUrl: 'https://github.com/abhijeetraj646/terraform-aws-infrastructure',
-      duration: '2 months',
-      teamSize: '2 (Infrastructure Team)',
-      highlights: [
-        'Reduced infrastructure provisioning time by 80%',
-        'Implemented security scanning with Checkov and tfsec',
-        'Created 10+ reusable Terraform modules',
-        'Automated cost optimization with lifecycle policies'
-      ],
-      challenges: [
-        'Managing Terraform state across multiple environments',
-        'Handling resource dependencies and ordering',
-        'Implementing proper security policies',
-        'Cost management and resource tagging'
-      ],
-      learnings: [
-        'Advanced Terraform module design patterns',
-        'AWS security best practices',
-        'Infrastructure cost optimization techniques',
-        'Automated compliance and security scanning'
-      ]
-    },
-    {
-      id: 'jenkins-pipeline-automation',
-      title: 'Advanced Jenkins Pipeline Automation',
-      description: 'Automated CI/CD pipelines with security scanning, testing, and deployment automation.',
-      longDescription: 'Built advanced Jenkins pipelines with parallel execution, dynamic environments, and comprehensive security scanning. Integrated with SonarQube for code quality, Trivy for container scanning, and automated deployment to multiple environments.',
-      image: '/api/placeholder/400/300',
-      technologies: ['Jenkins', 'Groovy', 'Docker', 'SonarQube', 'Trivy', 'Slack', 'AWS', 'Kubernetes'],
-      category: 'automation',
-      githubUrl: 'https://github.com/abhijeetraj646/jenkins-pipeline-automation',
-      duration: '1.5 months',
-      teamSize: '3 (DevOps Team)',
-      highlights: [
-        'Reduced build time by 60% with parallel execution',
-        'Implemented automated security scanning',
-        'Zero-touch deployment to production',
-        'Comprehensive notification and reporting system'
-      ],
-      challenges: [
-        'Pipeline complexity management',
-        'Resource allocation for parallel builds',
-        'Integration with multiple security tools',
-        'Error handling and rollback strategies'
-      ],
-      learnings: [
-        'Advanced Jenkins pipeline as code techniques',
-        'Security-first CI/CD approach',
-        'Pipeline optimization and resource management',
-        'Automated testing and quality gates'
-      ]
-    },
-    {
-      id: 'monitoring-observability-stack',
-      title: 'Complete Monitoring & Observability Stack',
-      description: 'Comprehensive monitoring solution with Prometheus, Grafana, and ELK stack for full observability.',
-      longDescription: 'Implemented a complete observability stack using Prometheus for metrics, Grafana for visualization, and ELK stack for logging. Created custom dashboards, alerting rules, and automated incident response workflows.',
-      image: '/api/placeholder/400/300',
-      technologies: ['Prometheus', 'Grafana', 'Elasticsearch', 'Logstash', 'Kibana', 'AlertManager', 'PagerDuty'],
+      id: 'infrastructure-monitoring',
+      title: 'Infrastructure Monitoring with Grafana and Slack Integration',
+      description: 'Comprehensive monitoring solution with custom dashboards, real-time alerting, and team collaboration through Slack integration.',
+      longDescription: 'Built a complete monitoring infrastructure using Prometheus for metrics collection, Grafana for visualization, and integrated Slack notifications for real-time alerts. Implemented custom dashboards for CPU, memory, disk I/O, and network monitoring with advanced alerting rules.',
+      technologies: ['Grafana', 'Prometheus', 'Slack API', 'Custom Dashboards', 'Alert Manager', 'Linux'],
       category: 'monitoring',
       githubUrl: 'https://github.com/abhijeetraj646/monitoring-stack',
-      liveUrl: 'https://monitoring.abhijeetraj.dev',
       duration: '2 months',
-      teamSize: '2 (Platform Team)',
+      teamSize: '1 (Solo Project)',
       highlights: [
-        'Monitoring 200+ services across multiple clusters',
-        'Reduced MTTR by 70% with automated alerting',
-        'Custom Grafana dashboards for business metrics',
-        'Automated log aggregation and analysis'
+        'Custom Grafana dashboards for infrastructure metrics',
+        'Real-time data collection and analysis with Prometheus',
+        'Slack integration for instant notifications',
+        'Enhanced incident response workflows',
+        '95%+ alert accuracy achieved',
+        'Real-time monitoring implementation'
       ],
       challenges: [
-        'Scaling monitoring infrastructure',
-        'Data retention and storage optimization',
-        'Alert noise reduction and tuning',
-        'Integration with incident management systems'
+        'Integrating multiple monitoring tools seamlessly',
+        'Reducing alert noise and false positives',
+        'Creating meaningful dashboards for different stakeholders',
+        'Ensuring high availability of monitoring stack itself'
       ],
       learnings: [
-        'Observability design patterns',
-        'PromQL query optimization',
-        'Log aggregation at scale',
-        'SRE practices and SLI/SLO implementation'
+        'Advanced Prometheus query language (PromQL)',
+        'Grafana dashboard design best practices',
+        'Slack API integration and bot development',
+        'Incident management and alert optimization'
       ]
     },
     {
-      id: 'gitops-argocd-deployment',
-      title: 'GitOps Deployment with ArgoCD',
-      description: 'GitOps workflow implementation using ArgoCD for declarative continuous deployment.',
-      longDescription: 'Implemented GitOps methodology using ArgoCD for managing application deployments across multiple Kubernetes clusters. Created automated sync policies, health checks, and rollback mechanisms.',
-      image: '/api/placeholder/400/300',
-      technologies: ['ArgoCD', 'Kubernetes', 'Helm', 'Kustomize', 'Git', 'Slack'],
+      id: 'kubernetes-security-backup',
+      title: 'Enterprise Kubernetes Security & Backup Automation',
+      description: 'Production-ready Kubernetes security implementation with automated backup solutions and disaster recovery processes.',
+      longDescription: 'Implemented comprehensive RBAC (Role-Based Access Control) in Kubernetes to enhance security. Developed automated backup solutions for Jenkins and PostgreSQL using Kubernetes CronJobs with AWS S3 integration for secure storage.',
+      technologies: ['Kubernetes', 'RBAC', 'CronJobs', 'AWS S3', 'PostgreSQL', 'Jenkins', 'Docker'],
+      category: 'security',
+      githubUrl: 'https://github.com/abhijeetraj646/k8s-security-backup',
+      duration: '3 months',
+      teamSize: '2 (DevOps Team)',
+      highlights: [
+        'Role-Based Access Control (RBAC) implementation',
+        'Automated Jenkins and PostgreSQL backups',
+        'AWS S3 integration for secure backup storage',
+        'Disaster recovery process automation',
+        'High availability configuration',
+        'Security best practices implementation'
+      ],
+      challenges: [
+        'Complex RBAC policy design and testing',
+        'Ensuring backup integrity and consistency',
+        'Managing secrets and credentials securely',
+        'Coordinating backup schedules across services'
+      ],
+      learnings: [
+        'Kubernetes security architecture and RBAC',
+        'Backup and disaster recovery strategies',
+        'AWS S3 lifecycle management',
+        'Kubernetes CronJob optimization and monitoring'
+      ]
+    },
+    {
+      id: 'cicd-pipeline-automation',
+      title: 'Automated Full Stack CI/CD with Infrastructure as Code',
+      description: 'Comprehensive CI/CD pipeline implementation with infrastructure automation, security scanning, and continuous deployment using modern DevOps practices.',
+      longDescription: 'Designed and implemented end-to-end CI/CD pipelines for full-stack applications using Jenkins. Integrated Terraform for infrastructure provisioning, SonarQube for code quality analysis, and Trivy for security scanning. Implemented GitOps workflow with ArgoCD for continuous deployment.',
+      technologies: ['Jenkins', 'Terraform', 'SonarQube', 'Trivy', 'Docker', 'AWS ECR', 'Argo CD', 'Git'],
       category: 'devops',
-      githubUrl: 'https://github.com/abhijeetraj646/gitops-argocd',
-      duration: '1 month',
-      teamSize: '1 (Solo Project)',
+      githubUrl: 'https://github.com/abhijeetraj646/cicd-automation',
+      duration: '4 months',
+      teamSize: '3 (Development Team)',
       highlights: [
-        'Deployed applications across 5 different environments',
-        'Implemented automated rollback on health check failures',
-        'Created custom ArgoCD applications and projects',
-        'Integrated with Slack for deployment notifications'
+        'Jenkins pipelines for frontend and backend applications',
+        'Terraform integration for infrastructure provisioning',
+        'SonarQube static code analysis integration',
+        'Trivy security scanning for vulnerabilities',
+        'Automated Docker image creation and ECR push',
+        'Continuous deployment with Argo CD',
+        'End-to-end automation and monitoring'
       ],
       challenges: [
-        'Multi-cluster application management',
-        'Secrets synchronization across environments',
-        'Application dependency management',
-        'Custom resource handling and health checks'
+        'Orchestrating complex multi-stage pipelines',
+        'Managing environment-specific configurations',
+        'Implementing proper security scanning gates',
+        'Handling pipeline failures and rollback strategies'
       ],
       learnings: [
-        'GitOps principles and best practices',
-        'ArgoCD configuration and customization',
-        'Declarative application management',
-        'Multi-environment deployment strategies'
+        'Advanced Jenkins pipeline scripting',
+        'Infrastructure as Code with Terraform',
+        'Security integration in CI/CD pipelines',
+        'GitOps principles and ArgoCD implementation'
       ]
     },
     {
-      id: 'aws-cost-optimization',
-      title: 'AWS Cost Optimization Automation',
-      description: 'Automated AWS cost optimization using Lambda functions and CloudWatch for resource management.',
-      longDescription: 'Built automated cost optimization system using AWS Lambda, CloudWatch, and Cost Explorer APIs. Implemented automated resource tagging, rightsizing recommendations, and unused resource cleanup.',
-      image: '/api/placeholder/400/300',
-      technologies: ['AWS Lambda', 'Python', 'CloudWatch', 'Cost Explorer', 'SNS', 'Boto3', 'Terraform'],
-      category: 'cloud',
-      githubUrl: 'https://github.com/abhijeetraj646/aws-cost-optimization',
-      duration: '1 month',
+      id: 'python-jira-integration',
+      title: 'Python Web Application with Jira Integration',
+      description: 'Custom Python web application integrated with Jira for enhanced issue tracking and project management, deployed using Docker.',
+      longDescription: 'Developed a Python web application that integrates seamlessly with Jira API for automated issue tracking and project management. Containerized the application using Docker and deployed it on Kubernetes for scalability and reliability.',
+      technologies: ['Python', 'Jira API', 'Docker', 'Kubernetes', 'Flask/Django', 'REST APIs'],
+      category: 'devops',
+      githubUrl: 'https://github.com/abhijeetraj646/python-jira-app',
+      duration: '1.5 months',
       teamSize: '1 (Solo Project)',
       highlights: [
-        'Reduced AWS costs by 40% through automation',
-        'Automated resource tagging and lifecycle management',
-        'Daily cost reports and budget alerts',
-        'Rightsizing recommendations for EC2 and RDS'
+        'Python web application with Jira API integration',
+        'Automated issue tracking and project management',
+        'Docker containerization for deployment',
+        'Kubernetes deployment for scalability',
+        'RESTful API design and implementation',
+        'Enhanced team productivity and workflow automation'
       ],
       challenges: [
-        'Complex cost analysis across multiple services',
-        'Automated decision making for resource cleanup',
-        'Integration with existing tagging strategies',
-        'Risk management for automated actions'
+        'Jira API authentication and rate limiting',
+        'Handling different Jira project configurations',
+        'Ensuring application security and data privacy',
+        'Managing application state and session handling'
       ],
       learnings: [
-        'AWS Cost Explorer API and billing optimization',
-        'Serverless architecture patterns',
-        'Financial operations (FinOps) practices',
-        'Automated governance and compliance'
+        'Jira API integration and webhook handling',
+        'Python web framework development',
+        'Containerization best practices',
+        'API design and security implementation'
+      ]
+    },
+    {
+      id: 'traefik-reverse-proxy',
+      title: 'Traefik Reverse Proxy Implementation',
+      description: 'Implemented Traefik as reverse proxy for optimized routing and application performance with automatic SSL certificate management.',
+      longDescription: 'Configured and deployed Traefik reverse proxy to handle routing for multiple applications. Implemented automatic SSL certificate generation using Let\'s Encrypt, load balancing, and service discovery for containerized applications.',
+      technologies: ['Traefik', 'Docker', 'Let\'s Encrypt', 'Load Balancing', 'SSL/TLS', 'Service Discovery'],
+      category: 'devops',
+      githubUrl: 'https://github.com/abhijeetraj646/traefik-setup',
+      duration: '3 weeks',
+      teamSize: '1 (Solo Project)',
+      highlights: [
+        'Traefik reverse proxy configuration',
+        'Automatic SSL certificate management',
+        'Load balancing and service discovery',
+        'Optimized routing and application performance',
+        'Container orchestration integration',
+        'Enhanced security with automatic HTTPS'
+      ],
+      challenges: [
+        'Configuring complex routing rules',
+        'Managing SSL certificates for multiple domains',
+        'Handling service discovery in dynamic environments',
+        'Optimizing performance and reducing latency'
+      ],
+      learnings: [
+        'Reverse proxy configuration and management',
+        'SSL/TLS certificate automation',
+        'Load balancing strategies and algorithms',
+        'Service mesh concepts and implementation'
       ]
     }
-  ];
+  ], []);
 
-  const filteredProjects = selectedCategory === 'all' 
-    ? projects 
-    : projects.filter(project => project.category === selectedCategory);
+  const filteredProjects = useMemo(() => {
+    if (selectedCategory === 'all') return projects;
+    return projects.filter(project => project.category === selectedCategory);
+  }, [selectedCategory, projects]);
 
-  const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+  const ProjectCard: React.FC<{ project: Project; index: number }> = React.memo(({ project, index }) => {
     return (
       <motion.div
         layout
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.6, delay: index * 0.1 }}
-        className="group relative overflow-hidden rounded-2xl border transition-all duration-300 card-hover glass-morphism"
+        transition={{ duration: 0.5, delay: Math.min(index * 0.1, 0.6) }}
+        className="group relative overflow-hidden rounded-xl border transition-all duration-300 card-hover bg-white dark:bg-gray-800"
         style={{ borderColor: 'rgb(var(--border))' }}
       >
-        {/* Project Image */}
-        <div className="relative h-48 overflow-hidden">
-          <div className="w-full h-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-            <span className="text-4xl font-bold text-white">{project.title.substring(0, 2)}</span>
+        {/* Project Header */}
+        <div className="relative h-32 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+          <div className="text-center text-white">
+            <h3 className="text-lg font-bold mb-1">{project.title.split(' ').slice(0, 2).join(' ')}</h3>
+            <p className="text-sm opacity-90">{project.category.toUpperCase()}</p>
           </div>
-          <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-            <div className="flex space-x-4">
+          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <div className="flex space-x-3">
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setSelectedProject(project)}
-                className="p-3 rounded-full bg-white text-black hover:bg-gray-100 transition-colors"
+                className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
+                aria-label="View project details"
               >
                 <EyeIcon className="w-5 h-5" />
               </motion.button>
@@ -263,7 +242,8 @@ const Projects: React.FC = () => {
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 rounded-full bg-white text-black hover:bg-gray-100 transition-colors"
+                  className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
+                  aria-label="View source code"
                 >
                   <CodeBracketIcon className="w-5 h-5" />
                 </motion.a>
@@ -275,7 +255,8 @@ const Projects: React.FC = () => {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 rounded-full bg-white text-black hover:bg-gray-100 transition-colors"
+                  className="p-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-colors"
+                  aria-label="View live demo"
                 >
                   <ArrowTopRightOnSquareIcon className="w-5 h-5" />
                 </motion.a>
@@ -285,25 +266,23 @@ const Projects: React.FC = () => {
         </div>
 
         {/* Project Content */}
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm font-medium px-3 py-1 rounded-full" style={{
-              backgroundColor: 'rgb(var(--primary) / 0.1)',
-              color: 'rgb(var(--primary))'
-            }}>
-              {categories.find(cat => cat.id === project.category)?.name}
-            </span>
             <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
               <CalendarIcon className="w-4 h-4 mr-1" />
               {project.duration}
             </div>
+            <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+              <UserGroupIcon className="w-4 h-4 mr-1" />
+              {project.teamSize}
+            </div>
           </div>
 
-          <h3 className="text-xl font-bold mb-3" style={{ color: 'rgb(var(--foreground))' }}>
+          <h3 className="text-lg font-bold mb-3 line-clamp-2" style={{ color: 'rgb(var(--foreground))' }}>
             {project.title}
           </h3>
 
-          <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
             {project.description}
           </p>
 
@@ -311,7 +290,7 @@ const Projects: React.FC = () => {
             {project.technologies.slice(0, 3).map((tech) => (
               <span
                 key={tech}
-                className="px-2 py-1 text-xs rounded-md border"
+                className="px-2 py-1 text-xs rounded-md border text-center"
                 style={{
                   borderColor: 'rgb(var(--border))',
                   color: 'rgb(var(--muted-foreground))',
@@ -323,10 +302,10 @@ const Projects: React.FC = () => {
             ))}
             {project.technologies.length > 3 && (
               <span
-                className="px-2 py-1 text-xs rounded-md"
+                className="px-2 py-1 text-xs rounded-md font-medium"
                 style={{ color: 'rgb(var(--primary))' }}
               >
-                +{project.technologies.length - 3} more
+                +{project.technologies.length - 3}
               </span>
             )}
           </div>
@@ -345,42 +324,61 @@ const Projects: React.FC = () => {
         </div>
       </motion.div>
     );
-  };
+  });
+
+  ProjectCard.displayName = 'ProjectCard';
+
+  if (!inView) {
+    return (
+      <section ref={ref} id="projects" className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: 'rgb(var(--primary))' }} />
+              <p className="text-lg" style={{ color: 'rgb(var(--muted-foreground))' }}>Loading Projects...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <AnimatedSection id="projects" className="py-20 px-4 sm:px-6 lg:px-8">
+    <section ref={ref} id="projects" className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
-          ref={ref}
           initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="gradient-text">Featured Projects</span>
+            <span className="gradient-text">Key Projects</span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            A showcase of my DevOps and cloud infrastructure projects, demonstrating expertise 
-            in automation, monitoring, and scalable system design.
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            Real-world implementations showcasing DevOps expertise and innovative solutions 
+            in cloud infrastructure and automation.
           </p>
         </motion.div>
 
         {/* Category Filter */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap gap-4 justify-center mb-12"
+          className="flex flex-wrap gap-3 justify-center mb-12"
         >
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <motion.button
               key={category.id}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedCategory(category.id)}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 text-sm ${
                 selectedCategory === category.id ? 'shadow-lg' : 'hover:shadow-md'
               }`}
               style={{
@@ -389,7 +387,7 @@ const Projects: React.FC = () => {
               }}
             >
               <span>{category.icon}</span>
-              <span>{category.name}</span>
+              <span className="hidden sm:inline">{category.name}</span>
             </motion.button>
           ))}
         </motion.div>
@@ -397,7 +395,7 @@ const Projects: React.FC = () => {
         {/* Projects Grid */}
         <motion.div
           layout
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           <AnimatePresence mode="wait">
             {filteredProjects.map((project, index) => (
@@ -420,7 +418,7 @@ const Projects: React.FC = () => {
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
-                className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl border glass-morphism"
+                className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl border"
                 style={{ 
                   borderColor: 'rgb(var(--border))',
                   backgroundColor: 'rgb(var(--background))'
@@ -428,9 +426,9 @@ const Projects: React.FC = () => {
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Modal Header */}
-                <div className="sticky top-0 flex items-center justify-between p-6 border-b" style={{ 
+                <div className="sticky top-0 flex items-center justify-between p-6 border-b backdrop-blur-sm" style={{ 
                   borderColor: 'rgb(var(--border))',
-                  backgroundColor: 'rgb(var(--background))'
+                  backgroundColor: 'rgb(var(--background) / 0.9)'
                 }}>
                   <h3 className="text-2xl font-bold" style={{ color: 'rgb(var(--foreground))' }}>
                     {selectedProject.title}
@@ -438,6 +436,7 @@ const Projects: React.FC = () => {
                   <button
                     onClick={() => setSelectedProject(null)}
                     className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    aria-label="Close modal"
                   >
                     <XMarkIcon className="w-6 h-6" style={{ color: 'rgb(var(--foreground))' }} />
                   </button>
@@ -466,7 +465,7 @@ const Projects: React.FC = () => {
                     <div className="space-y-4">
                       {/* Technologies */}
                       <div>
-                        <h4 className="font-semibold mb-2 flex items-center" style={{ color: 'rgb(var(--foreground))' }}>
+                        <h4 className="font-semibold mb-3 flex items-center" style={{ color: 'rgb(var(--foreground))' }}>
                           <TagIcon className="w-4 h-4 mr-2" />
                           Technologies Used
                         </h4>
@@ -532,7 +531,7 @@ const Projects: React.FC = () => {
                       <ul className="space-y-2">
                         {selectedProject.highlights.map((highlight, index) => (
                           <li key={index} className="flex items-start text-sm text-gray-600 dark:text-gray-300">
-                            <span className="text-green-500 mr-2">✓</span>
+                            <span className="text-green-500 mr-2 mt-0.5">✓</span>
                             {highlight}
                           </li>
                         ))}
@@ -546,7 +545,7 @@ const Projects: React.FC = () => {
                       <ul className="space-y-2">
                         {selectedProject.challenges.map((challenge, index) => (
                           <li key={index} className="flex items-start text-sm text-gray-600 dark:text-gray-300">
-                            <span className="text-orange-500 mr-2">⚠</span>
+                            <span className="text-orange-500 mr-2 mt-0.5">⚠</span>
                             {challenge}
                           </li>
                         ))}
@@ -560,7 +559,7 @@ const Projects: React.FC = () => {
                       <ul className="space-y-2">
                         {selectedProject.learnings.map((learning, index) => (
                           <li key={index} className="flex items-start text-sm text-gray-600 dark:text-gray-300">
-                            <span className="text-blue-500 mr-2">💡</span>
+                            <span className="text-blue-500 mr-2 mt-0.5">💡</span>
                             {learning}
                           </li>
                         ))}
@@ -573,7 +572,7 @@ const Projects: React.FC = () => {
           )}
         </AnimatePresence>
       </div>
-    </AnimatedSection>
+    </section>
   );
 };
 
