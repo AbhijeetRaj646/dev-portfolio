@@ -1,8 +1,28 @@
 {
   "homepage": "https://github.com/AbhijeetRaj646/dev-portfolio",
-  "name": "vite-react-typescript-starter",
+  "name": "abhijeet-raj-portfolio",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Professional DevOps Engineer portfolio showcasing expertise in cloud infrastructure, CI/CD, and modern development practices.",
+  "author": {
+    "name": "Abhijeet Raj",
+    "email": "abhijeetraj646@gmail.com",
+    "url": "https://abhijeetraj.dev"
+  },
+  "keywords": [
+    "portfolio",
+    "devops",
+    "aws",
+    "kubernetes",
+    "docker",
+    "terraform",
+    "jenkins",
+    "ci-cd",
+    "cloud-infrastructure",
+    "react",
+    "typescript",
+    "vite"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",

@@ -70,7 +70,7 @@ export default function Experience() {
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Work Experience */}
           <div>
-            <h2 className="text-4xl font-bold text-gray-900 mb-8">Work Experience</h2>
+            <h2 id="experience-heading" className="text-4xl font-bold text-gray-900 mb-8">Work Experience</h2>
             <div className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -79,11 +79,11 @@ export default function Experience() {
                 </div>
                 <div className="text-right text-sm text-gray-500">
                   <div className="flex items-center mb-1">
-                    <Calendar className="w-4 h-4 mr-1" />
-                    {workExperience.period}
+                    <Calendar className="w-4 h-4 mr-1" aria-hidden="true" />
+                    <time dateTime="2023-07">{workExperience.period}</time>
                   </div>
                   <div className="flex items-center">
-                    <MapPin className="w-4 h-4 mr-1" />
+                    <MapPin className="w-4 h-4 mr-1" aria-hidden="true" />
                     {workExperience.location}
                   </div>
                 </div>
@@ -93,10 +93,10 @@ export default function Experience() {
               
               <div className="mb-4">
                 <h4 className="text-sm font-semibold text-gray-900 mb-2">Key Achievements:</h4>
-                <ul className="space-y-1">
+                <ul className="space-y-1" role="list">
                   {workExperience.achievements.map((achievement, achIndex) => (
-                    <li key={achIndex} className="flex items-start text-sm text-gray-700">
-                      <span className="text-green-600 mr-2 mt-1">✓</span>
+                    <li key={achIndex} className="flex items-start text-sm text-gray-700" role="listitem">
+                      <span className="text-green-600 mr-2 mt-1" aria-hidden="true">✓</span>
                       <span>{achievement}</span>
                     </li>
                   ))}
@@ -123,14 +123,14 @@ export default function Experience() {
                   <div key={index} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-start space-x-4">
                       <div className="bg-blue-100 p-3 rounded-lg">
-                        <GraduationCap className="w-6 h-6 text-blue-600" />
+                        <GraduationCap className="w-6 h-6 text-blue-600" aria-hidden="true" />
                       </div>
                       <div className="flex-1">
                         <h3 className="text-lg font-semibold text-gray-900 mb-1">{edu.degree}</h3>
                         <p className="text-blue-600 font-medium mb-1">{edu.field}</p>
                         <p className="text-gray-700 mb-2">{edu.institution}</p>
                         <div className="flex justify-between items-center text-sm text-gray-500">
-                          <span>{edu.period}</span>
+                          <time dateTime={edu.period.split(' - ')[0]}>{edu.period}</time>
                           <span className="font-semibold text-green-600">{edu.grade}</span>
                         </div>
                         <p className="text-xs text-gray-500 mt-1">{edu.location}</p>
@@ -148,12 +148,12 @@ export default function Experience() {
                 {certifications.map((cert, index) => (
                   <div key={index} className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
                     <div className="flex items-start space-x-4">
-                      <div className="text-3xl">{cert.logo}</div>
+                      <div className="text-3xl" role="img" aria-label={`${cert.title} certification`}>{cert.logo}</div>
                       <div className="flex-1">
                         <h3 className="text-lg font-semibold text-gray-900 mb-1">{cert.title}</h3>
                         <p className="text-blue-600 font-medium mb-2">{cert.issuer}</p>
                         <div className="text-sm text-gray-500">
-                          <span>Completed: {cert.date}</span>
+                          <span>Completed: <time dateTime={cert.date}>{cert.date}</time></span>
                         </div>
                       </div>
                     </div>
