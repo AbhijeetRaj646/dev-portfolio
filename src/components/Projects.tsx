@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Github, Play, GitBranch, Shield, Monitor } from 'lucide-react';
+import { GitBranch, Shield, Monitor } from 'lucide-react';
 
 const projects = [
   {
@@ -69,7 +69,7 @@ export default function Projects() {
     <section className="py-20 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Key Projects</h2>
+          <h2 id="projects-heading" className="text-4xl font-bold text-gray-900 mb-4">Key Projects</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Real-world implementations showcasing DevOps expertise and innovative solutions 
             in cloud infrastructure and automation
@@ -78,12 +78,12 @@ export default function Projects() {
         
         <div className="space-y-12">
           {projects.map((project, index) => (
-            <div key={index} className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow">
+            <article key={index} className="bg-gray-50 rounded-2xl p-8 hover:shadow-lg transition-shadow">
               <div className="grid lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-6">
                   <div className="flex items-start space-x-4">
                     <div className="bg-blue-100 p-3 rounded-lg">
-                      <project.icon className="w-6 h-6 text-blue-600" />
+                      <project.icon className="w-6 h-6 text-blue-600" aria-hidden="true" />
                     </div>
                     <div>
                       <h3 className="text-2xl font-bold text-gray-900 mb-3">{project.title}</h3>
@@ -93,10 +93,10 @@ export default function Projects() {
                   
                   <div>
                     <h4 className="text-lg font-semibold text-gray-900 mb-3">Implementation Details</h4>
-                    <ul className="space-y-2">
+                    <ul className="space-y-2" role="list">
                       {project.features.map((feature, featureIndex) => (
-                        <li key={featureIndex} className="flex items-start">
-                          <span className="text-blue-600 mr-2 mt-1">•</span>
+                        <li key={featureIndex} className="flex items-start" role="listitem">
+                          <span className="text-blue-600 mr-2 mt-1" aria-hidden="true">•</span>
                           <span className="text-gray-700">{feature}</span>
                         </li>
                       ))}
@@ -105,9 +105,9 @@ export default function Projects() {
                   
                   <div>
                     <h4 className="text-lg font-semibold text-gray-900 mb-3">Technologies Used</h4>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2" role="list" aria-label={`Technologies used in ${project.title}`}>
                       {project.technologies.map((tech, techIndex) => (
-                        <span key={techIndex} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                        <span key={techIndex} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium" role="listitem">
                           {tech}
                         </span>
                       ))}
@@ -140,7 +140,7 @@ export default function Projects() {
                   </div>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
