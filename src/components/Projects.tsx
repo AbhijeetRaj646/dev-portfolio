@@ -1,5 +1,5 @@
 import React from 'react';
-import { ExternalLink, Github, Play, GitBranch, Shield, Monitor } from 'lucide-react';
+import { GitBranch, Shield, Monitor } from 'lucide-react';
 
 const projects = [
   {

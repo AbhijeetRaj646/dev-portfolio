@@ -17,9 +17,9 @@ const ANALYTICS_CONFIG = {
 
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
-    plausible: (...args: any[]) => void;
+    gtag: (...args: (string | Date | Record<string, unknown>)[]) => void;
+    dataLayer: Record<string, unknown>[];
+    plausible: (event: string, options?: { props?: Record<string, unknown> }) => void;
   }
 }
 
@@ -35,8 +35,8 @@ export default function Analytics() {
 
       // Initialize gtag
       window.dataLayer = window.dataLayer || [];
-      function gtag(...args: any[]) {
-        window.dataLayer.push(arguments);
+      function gtag(...args: (string | Date | Record<string, unknown>)[]): void {
+        window.dataLayer.push(args);
       }
       window.gtag = gtag;
       gtag('js', new Date());
@@ -65,7 +65,7 @@ export default function Analytics() {
 }
 
 // Utility functions for tracking events
-export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
+export const trackEvent = (eventName: string, properties?: Record<string, unknown>) => {
   // Google Analytics event tracking
   if (ANALYTICS_CONFIG.googleAnalytics.enabled && window.gtag) {
     window.gtag('event', eventName, properties);

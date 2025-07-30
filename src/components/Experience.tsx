@@ -1,5 +1,5 @@
 import React from 'react';
-import { Calendar, MapPin, Briefcase, GraduationCap } from 'lucide-react';
+import { Calendar, MapPin, GraduationCap } from 'lucide-react';
 
 const workExperience = {
   title: "Software Engineer",

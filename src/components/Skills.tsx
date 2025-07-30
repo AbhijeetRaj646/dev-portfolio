@@ -2,9 +2,7 @@ import React from 'react';
 import { 
   Cloud, 
   Container, 
-  GitBranch, 
   Monitor, 
-  Shield, 
   Terminal, 
   Database,
   Server
